@@ -54,8 +54,8 @@ static NSString *const XML_NAMESPACE_URI = @"http://www.w3.org/XML/1998/namespac
 static NSString *const XML_NAMESPACE_URI_PREFIX = @"xml";
 static NSString *const XMLNS_NAMESPACE_URI = @"http://www.w3.org/2000/xmlns/";
 static NSString *const XMLNS_NAMESPACE_URI_PREFIX = @"xmlns";
-static NSString *const XSI_NAMESPACE_URI = @"http://www.w3.org/2001/XMLSchema/";
-static NSString *const XSI_NAMESPACE_URI_PREFIX = @"xsi";
+//static NSString *const XSI_NAMESPACE_URI = @"http://www.w3.org/2001/XMLSchema/";
+//static NSString *const XSI_NAMESPACE_URI_PREFIX = @"xsi";
 
 @implementation XMLWriter
 
@@ -307,7 +307,13 @@ static NSString *const XSI_NAMESPACE_URI_PREFIX = @"xsi";
 	}
 }
 
-- (void) writeStartElementWithNamespace:(NSString *)namespaceURI localName:(NSString *)localName {
+- (void)writeStartElementWithNamespace:(NSString *)namespaceURI localName:(NSString *)localName
+{
+    [self writeStartElementWithNamespace:namespaceURI localName:localName shouldPrefix:NO];
+}
+
+- (void) writeStartElementWithNamespace:(NSString *)namespaceURI localName:(NSString *)localName shouldPrefix:(BOOL)shouldPrefix
+{
 	if(openElement) {
 		[self writeCloseElement:NO];
 	}
@@ -323,8 +329,13 @@ static NSString *const XSI_NAMESPACE_URI_PREFIX = @"xsi";
 			// raise exception
 			@throw([NSException exceptionWithName:@"XMLWriterException" reason:[NSString stringWithFormat:@"Unknown namespace URI %@", namespaceURI] userInfo:NULL]);
 		}
-		
-		if([prefix length]) {
+        
+		if([namespaceURI rangeOfString:@"envelope"].location != NSNotFound)
+        {
+            shouldPrefix = YES;
+        }
+        
+		if([prefix length] && shouldPrefix) {
 			[self write:prefix];
 			[self write:@":"];
 		}
@@ -339,7 +350,12 @@ static NSString *const XSI_NAMESPACE_URI_PREFIX = @"xsi";
 	
 }
 
-- (void) writeEndElementWithNamespace:(NSString *)namespaceURI localName:(NSString *)localName {
+- (void)writeEndElementWithNamespace:(NSString *)namespaceURI localName:(NSString *)localName
+{
+    [self writeEndElementWithNamespace:namespaceURI localName:localName shouldPrefix:NO];
+}
+
+- (void) writeEndElementWithNamespace:(NSString *)namespaceURI localName:(NSString *)localName shouldPrefix:(BOOL)shouldPrefix{
 	if(level <= 0) {
 		// raise exception
 		@throw([NSException exceptionWithName:@"XMLWriterException" reason:@"Cannot write more end elements than start elements." userInfo:NULL]);
@@ -371,7 +387,12 @@ static NSString *const XSI_NAMESPACE_URI_PREFIX = @"xsi";
 			@throw([NSException exceptionWithName:@"XMLWriterException" reason:[NSString stringWithFormat:@"Unknown namespace URI %@", namespaceURI] userInfo:NULL]);
 		}
 		
-		if([prefix length]) {
+		if([namespaceURI rangeOfString:@"envelope"].location != NSNotFound)
+        {
+            shouldPrefix = YES;
+        }
+        
+		if([prefix length] && shouldPrefix) {
 			[self write:prefix];
 			[self write:@":"];
 		}

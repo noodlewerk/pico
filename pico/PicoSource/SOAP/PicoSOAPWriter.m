@@ -55,6 +55,8 @@ static NSString *XSD_NAMESPACE = @"http://www.w3.org/2001/XMLSchema";
     [xmlWriter setPrefix:SOAP_PREFIX namespaceURI:namespace];    
     [xmlWriter setPrefix:XSI_PREFIX namespaceURI:XSI_NAMESPACE];
     [xmlWriter setPrefix:XSD_PREFIX namespaceURI:XSD_NAMESPACE];
+    [xmlWriter setPrefix:@"sear" namespaceURI:@"http://xml.proveid.experian.com/xsd/Search"];
+    [xmlWriter setPrefix:@"arch" namespaceURI:@"http://xml.proveid.experian.com/xsd/Archive"];
     
     NSString *innerNamespace = [self findInnerClassNamespace:obj];
     // set default namespace without prefix

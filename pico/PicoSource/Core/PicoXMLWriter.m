@@ -202,9 +202,9 @@
         NSString *prefix = [NSString stringWithFormat:@"ns%d", _autoPrefixCount++];
         [xmlWriter setPrefix:prefix namespaceURI:namespace];
     }
-    [xmlWriter writeStartElementWithNamespace:namespace localName:xmlName];
+    [xmlWriter writeStartElementWithNamespace:namespace localName:xmlName shouldPrefix:classSchema.shouldPrefix];
     [self writeObject:xmlWriter source:source];
-    [xmlWriter writeEndElementWithNamespace:namespace localName:xmlName];
+    [xmlWriter writeEndElementWithNamespace:namespace localName:xmlName shouldPrefix:classSchema.shouldPrefix];
 }
 
 

@@ -19,6 +19,7 @@
 
 @property (nonatomic, assign) NSString *xmlName;
 @property (nonatomic, assign) NSString *nsURI;
+@property (nonatomic, assign) BOOL shouldPrefix;
 
 -(id)initWithXmlName:(NSString *)name nsUri: (NSString *)uri;
 

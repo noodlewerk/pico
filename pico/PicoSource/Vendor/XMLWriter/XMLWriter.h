@@ -65,7 +65,9 @@
 @protocol NSXMLStreamWriter <XMLStreamWriter>
 
 - (void) writeStartElementWithNamespace:(NSString *)namespaceURI localName:(NSString *)localName;
+- (void) writeStartElementWithNamespace:(NSString *)namespaceURI localName:(NSString *)localName shouldPrefix:(BOOL)shouldPrefix;
 - (void) writeEndElementWithNamespace:(NSString *)namespaceURI localName:(NSString *)localName;
+- (void) writeEndElementWithNamespace:(NSString *)namespaceURI localName:(NSString *)localName shouldPrefix:(BOOL)shouldPrefix;
 - (void) writeEmptyElementWithNamespace:(NSString *)namespaceURI localName:(NSString *)localName;
 
 - (void) writeAttributeWithNamespace:(NSString *)namespaceURI localName:(NSString *)localName value:(NSString *)value;
