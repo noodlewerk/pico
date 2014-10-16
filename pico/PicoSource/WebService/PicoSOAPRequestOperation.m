@@ -121,7 +121,7 @@ static dispatch_queue_t soap_request_operation_processing_queue() {
         } else {
             if (self.debug) {
                 if (self.response) {
-                    NSLog(@"Response HTTP status : \n%u", [self.response statusCode]);
+                    NSLog(@"Response HTTP status : \n%u", (unsigned int)[self.response statusCode]);
                     NSLog(@"Response HTTP headers : \n%@", [self.response allHeaderFields]);
                 }
             }

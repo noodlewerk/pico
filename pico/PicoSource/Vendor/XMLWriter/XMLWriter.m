@@ -101,7 +101,7 @@ static NSString *const XMLNS_NAMESPACE_URI_PREFIX = @"xmlns";
 		[namespaceCounts addObject:previousCount];
 	} else {
 		// the count has changed, save the it
-		NSNumber* count = [NSNumber numberWithInt:[namespaceURIs count]];
+		NSNumber* count = [NSNumber numberWithInteger:[namespaceURIs count]];
         
 		[namespaceCounts addObject:count];
 	}
@@ -588,7 +588,7 @@ static NSString *const XMLNS_NAMESPACE_URI_PREFIX = @"xmlns";
 	
 	if (characters) {
 		// main flow
-		[self writeEscapeCharacters:characters length:[value length]];
+		[self writeEscapeCharacters:characters length:(int)[value length]];
 	} else {
 		// we need to read/copy the characters for some reason, from the docs of CFStringGetCharactersPtr:
 		// A pointer to a buffer of Unicode character or NULL if the internal storage of the CFString does not allow this to be returned efficiently.
@@ -602,13 +602,13 @@ static NSString *const XMLNS_NAMESPACE_URI_PREFIX = @"xmlns";
 			@throw([NSException exceptionWithName:@"XMLWriterException" reason:[NSString stringWithFormat:@"Could not allocate data buffer of %i unicode characters", 256] userInfo:NULL]);
 		}
 		
-		int count = 0;
+		unsigned int count = 0;
 		do {
 			int length;
 			if(count + 256 < [value length]) {
 				length = 256;
 			} else {
-				length = [value length] - count;
+				length = (int)[value length] - count;
 			}
 			
 			[value getCharacters:[data mutableBytes] range:NSMakeRange(count, length)];
